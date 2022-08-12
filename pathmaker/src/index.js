@@ -54,108 +54,38 @@ document.body.appendChild(component());
 
 window.onload = () => {
   let profile = "mapbox/walking";
-  let coordinates = [4.294575328274752, 50.78668775413435, 4.2646456534138135, 50.752852661976945];
+  //let coordinates = [4.294575328274752, 50.78668775413435, 4.2646456534138135, 50.752852661976945];
   let accestoken = 'pk.eyJ1IjoiYXNobGV5aGFydCIsImEiOiJja3VzajN0OWIwZjYwMm9tZnRhNnFmM2NjIn0._6gEaBHQtsooSxw223YP7A';
-
-  fetch(`https://api.mapbox.com/directions/v5/${profile}/${coordinates[0]},${coordinates[1]};${coordinates[2]},${coordinates[3]}?geometries=geojson&access_token=${accestoken}`)
+/*
+  fetch(`https:// .mapbox.com/directions/v5/${profile}/${coordinates[0]},${coordinates[1]};${coordinates[2]},${coordinates[3]}?geometries=geojson&access_token=${accestoken}`)
     .then(response => response.json())
     .then(data => {
       console.log(data);
     });
+*/
+  navigator.geolocation.getCurrentPosition(successLocation, errorLocation {
+    enableHighAccuracy: true })
 
+  function successLocation (position){
+    console.log(position)
+    setupMap([position.coords.longitude,position.coords.latitude])
+  }
+
+  function errorLocation() {
+    throw "Unable to find your location, try again"
+  }
 
   mapboxgl.accessToken = accestoken;
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/outdoors-v11',
-    center: [coordinates[0], coordinates[1]], //starting position
-    zoom: 15
-  });
 
 
-
-  // an arbitrary start will always be the same
-  // only the end or destination will change
-  const start = [coordinates[0], coordinates[1]];
-
-// create a function to make a directions request
-async function getRoute(end) {
-  // make a directions request using cycling profile
-  // an arbitrary start will always be the same
-  // only the end or destination will change
-  const query = await fetch(
-    `https://api.mapbox.com/directions/v5/mapbox/cycling/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
-    { method: 'GET' }
-  );
-  const json = await query.json();
-  const data = json.routes[0];
-  const route = data.geometry.coordinates;
-  const geojson = {
-    type: 'Feature',
-    properties: {},
-    geometry: {
-      type: 'LineString',
-      coordinates: route
-    }
-  };
-  // if the route already exists on the map, we'll reset it using setData
-  if (map.getSource('route')) {
-    map.getSource('route').setData(geojson);
-  }
-  // otherwise, we'll make a new request
-  else {
-    map.addLayer({
-      id: 'route',
-      type: 'line',
-      source: {
-        type: 'geojson',
-        data: geojson
-      },
-      layout: {
-        'line-join': 'round',
-        'line-cap': 'round'
-      },
-      paint: {
-        'line-color': '#3887be',
-        'line-width': 5,
-        'line-opacity': 0.75
-      }
+  function setupMap(coordinates) {
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/outdoors-v11',
+      center:coordinates,
+      //center: [coordinates[0], coordinates[1]], //starting position
+      zoom: 15
     });
   }
-  // add turn instructions here at the end
-}
-
-map.on('load', () => {
-  // make an initial directions request that
-  // starts and ends at the same location
-  getRoute(start);
-
-  // Add starting point to the map
-  map.addLayer({
-    id: 'point',
-    type: 'circle',
-    source: {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'Point',
-              coordinates: start
-            }
-          }
-        ]
-      }
-    },
-    paint: {
-      'circle-radius': 10,
-      'circle-color': '#3887be'
-    }
-  });
-  // this is where the code from the next step will go
-});
 
 }

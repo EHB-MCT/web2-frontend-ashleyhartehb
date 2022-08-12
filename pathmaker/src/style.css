@@ -8,7 +8,17 @@
 }
 */
 
-.hello{
-  color:red;
+.hello {
+  color: red;
   /*font-family: 'MyFont';*/
+}
+
+body {
+  margin: 0%;
+
+}
+
+#map {
+  width: 100vw;
+  height: 100vh;
 }
