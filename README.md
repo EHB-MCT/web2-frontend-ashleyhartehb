@@ -13,6 +13,6 @@ Mapbox API Key: pk.eyJ1IjoiYXNobGV5aGFydCIsImEiOiJja3VzajN0OWIwZjYwMm9tZnRhNnFmM
 
 Wireframe link: https://xd.adobe.com/view/c5ffd9f8-4144-4112-a643-dae6d4bda580-90ac/screen/22a13e37-aef4-4317-860b-8524ad7a53ea
 
-Github pages:
+Github pages: https://ehb-mct.github.io/web2-frontend-ashleyhartehb
 
 Heroku: https://pathmaker.herokuapp.com
