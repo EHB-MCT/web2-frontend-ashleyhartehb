@@ -9,19 +9,7 @@ import Destination from './destination.png'
 import Walk from './walk.png';
 import Run from './run.png';
 
-
-
-//strava info:
-//access token: bc4bc1c934a9285f6fe9f88d5afa6fcb9861da92
-//refresh token: 4a00427bb2a5508e4f7020bda319b94f8a0a9e77
-//100 req. /15min
-
-//mapbox:
-//pk.eyJ1IjoiYXNobGV5aGFydCIsImEiOiJja3VzajN0OWIwZjYwMm9tZnRhNnFmM2NjIn0._6gEaBHQtsooSxw223YP7A
-
-//followed this tutorial to get started with basics:
-//https://youtu.be/OySigNMXOZU
-
+/*
 function component() {
   const element = document.createElement('div');
 
@@ -30,6 +18,7 @@ function component() {
   element.classList.add('hello');
 
   // Add icons to div.
+  
   const walkIcon = new Image();
   walkIcon.src = Walk;
 
@@ -51,12 +40,12 @@ function component() {
   return element;
 }
 
-document.body.appendChild(component());
 
+document.body.appendChild(component());
+*/
 
 window.onload = () => {
   let profile = "mapbox/walking";
-  //let coordinates = [4.294575328274752, 50.78668775413435, 4.2646456534138135, 50.752852661976945];
   let accestoken = 'pk.eyJ1IjoiYXNobGV5aGFydCIsImEiOiJja3VzajN0OWIwZjYwMm9tZnRhNnFmM2NjIn0._6gEaBHQtsooSxw223YP7A';
   /*
     fetch(`https:// .mapbox.com/directions/v5/${profile}/${coordinates[0]},${coordinates[1]};${coordinates[2]},${coordinates[3]}?geometries=geojson&access_token=${accestoken}`)
@@ -99,6 +88,13 @@ window.onload = () => {
       .setLngLat(coordinates)
       .addTo(map);
 
+    //adding directions controller
+    map.addControl(new MapboxDirections({
+        accessToken: mapboxgl.accessToken
+      }),
+      'top-left'
+    );
+
     //adding controls on the bottom right corner
     map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
@@ -109,12 +105,11 @@ window.onload = () => {
         'url': 'mapbox://mapbox.mapbox-terrain-dem-v1'
       });
       map.addLayer({
-          'id': 'hillshading',
-          'source': 'dem',
-          'type': 'hillshade'
+        'id': 'hillshading',
+        'source': 'dem',
+        'type': 'hillshade'
 
-        },
-      );
+      }, );
     });
 
   }
